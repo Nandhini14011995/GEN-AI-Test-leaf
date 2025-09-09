@@ -1,0 +1,50 @@
+LLM API Request:
+==================
+
+{
+  "model": "openai/gpt-oss-120b",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Context:\n  You are an AI assistant to convert Selenium java code to playwright typescript code for homedepot retail app.\n   \n  Given the following selenium java code:\n\n    import org.openqa.selenium.By;\n    import org.openqa.selenium.WebDriver;\n    import org.openqa.selenium.WebElement;\n    import org.openqa.selenium.chrome.ChromeDriver;\n    import org.openqa.selenium.support.ui.ExpectedConditions;\n    import org.openqa.selenium.support.ui.WebDriverWait;\n    import org.testng.Assert;\n\n    import java.time.Duration;\n\n    public class LoginAutomation {\n        public static void main(String[] args) {\n            // Set path to your ChromeDriver executable\n            System.setProperty(\"webdriver.chrome.driver\", \"path/to/chromedriver\");\n\n            // Initialize WebDriver\n            WebDriver driver = new ChromeDriver();\n\n            try {\n                // Open your target website\n                driver.get(\"https://www.homedepot.com\");\n\n                // Maximize the browser window\n                driver.manage().window().maximize();\n\n                // Create WebDriverWait for explicit waits\n                WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));\n\n                // 1️⃣ Click the \"Log In\" button\n                WebElement loginButton = wait.until(\n                        ExpectedConditions.elementToBeClickable(By.cssSelector(\"button[data-testid='header-button-Account']\"))\n                );\n                loginButton.click();\n\n                // 2️⃣ Click the \"Sign in\" link\n                WebElement signInLink = wait.until(\n                        ExpectedConditions.elementToBeClickable(By.xpath(\"//a[text()='Sign in']\"))\n                );\n                signInLink.click();\n\n                // 3️⃣ Wait for the email page heading and assert\n                WebElement heading = wait.until(\n                        ExpectedConditions.visibilityOfElementLocated(By.xpath(\"//h3[text()='Enter Your Email Address']\"))\n                );\n                String headingText = heading.getText();\n                Assert.assertEquals(headingText, \"Enter Your Email Address\", \"Page heading does not match!\");\n\n                System.out.println(\"✅ Assertion passed: Correct page heading is displayed!\");\n\n                // Optional pause just to observe\n                Thread.sleep(2000);\n\n            } catch (Exception e) {\n                e.printStackTrace();\n            } finally {\n                // Close browser\n                driver.quit();\n            }\n        }\n      }\n   \nInstructions:\n\n    - Implementation guidelines:\n      - Use the latest stable of version of playwright\n      - Leverage TypeScript-aware selectors and waits\n      - Import all required classes from playwright\n      - DO NOT convert to any other codes\n      - [CRITICAL] use best practice locators starting getByRole, getByLabel, getByPlaceholder, getByText, getByTestId, CSS, Xpath\n      - [CRITICAL] use stable attributes\n      - [MANDATORY] Every method should have proper comments above method signature\n      - [IMPORTANT] Do not send any explanation or additional text\n      - [STRICTLY] Follow the coding structure and syntax with reference of example\n      - Set headless to true\n      - Add assertions for validation\n\nExamples:\n\n    import { test, expect } from \"@playwright/test\";\n\n    test('LeafTaps Login', async ({ page }) => {\n      // Navigate to login page\n      await page.goto(\"http://leaftaps.com/opentaps/control/main\");\n      await page.setViewportSize({ width: 1920, height: 1080 });\n\n      // Enter username\n      await page.fill(\"#username\", \"Demosalesmanager\");\n\n      // Enter password\n      await page.fill(\"#password\", \"crmsfa\");\n\n      // Click Login\n      await page.click(\".decorativeSubmit\");\n\n      // Verify successful login by checking for CRM/SFA link\n      await expect(page.locator(\"a:has-text('CRM/SFA')\")).toBeVisible();\n\n      console.log(\"✅ Login successful, CRM/SFA link is visible\");\n    });\n\nTone: Professional, Clear and focused on framework migration. Provide well-commented, reusable code for QA engineers.\n        \nOutput: \n\n  - Provide the working Playwright TypeScript equivalent code for the provided Selenium program.\n  - Format and clean the converted playwright script\n  - Ensure it is executable Playwright script\n  - Ensure the valid/correct imports, async functions, browser and page handling\n\nPersona: Act as an senior automation architect with expertise in framework design using Selenium, Playwright, and TypeScript"
+    }
+  ]
+}
+
+
+LLM API Response:
+=====================
+
+{
+  "id": "chatcmpl-964358ef-cb04-456a-a788-224801de37a9",
+  "object": "chat.completion",
+  "created": 1757445282,
+  "model": "openai/gpt-oss-120b",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "```typescript\nimport { test, expect } from '@playwright/test';\n\n/**\n * Automates the Home Depot login flow:\n * 1. Clicks the header \"Log In\" button.\n * 2. Clicks the \"Sign in\" link.\n * 3. Verifies the email entry page heading.\n */\ntest.use({\n  // Run browsers in headless mode with a full-HD viewport\n  headless: true,\n  viewport: { width: 1920, height: 1080 }\n});\n\ntest('HomeDepot Login Automation', async ({ page }) => {\n  // Navigate to Home Depot homepage\n  await page.goto('https://www.homedepot.com');\n\n  // 1️⃣ Click the \"Log In\" button using stable test id\n  const loginButton = page.getByTestId('header-button-Account');\n  await expect(loginButton).toBeVisible();\n  await loginButton.click();\n\n  // 2️⃣ Click the \"Sign in\" link by its visible text\n  const signInLink = page.getByRole('link', { name: 'Sign in' });\n  await expect(signInLink).toBeVisible();\n  await signInLink.click();\n\n  // 3️⃣ Verify the heading \"Enter Your Email Address\" is displayed\n  const heading = page.getByRole('heading', { name: 'Enter Your Email Address', level: 3 });\n  await expect(heading).toBeVisible();\n  await expect(heading).toHaveText('Enter Your Email Address');\n\n  console.log('✅ Assertion passed: Correct page heading is displayed!');\n\n  // Optional pause to observe the final state\n  await page.waitForTimeout(2000);\n});\n```",
+        "reasoning": "We need to output a Playwright TypeScript script equivalent to the Selenium code, following guidelines: use latest stable Playwright, use proper selectors (prefer getByRole etc.), stable attributes. Headless true. Add assertions. Use comments above method signature (but we are writing test function). Provide test('Login Automation', async ({ page }) => { ... }). Ensure imports: import { test, expect } from '@playwright/test'; Use page.goto, page.locator, etc. Use page.getByTestId for the login button. For sign in link: locate by text. For heading: getByRole('heading', { name: 'Enter Your Email Address', level: 3 }). Add expect toBeVisible and toHaveText. Add console.log and optional pause. No extra explanation outside code."
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "queue_time": 0.206186119,
+    "prompt_tokens": 963,
+    "prompt_time": 0.039311673,
+    "completion_tokens": 735,
+    "completion_time": 1.465508514,
+    "total_tokens": 1698,
+    "total_time": 1.504820187
+  },
+  "usage_breakdown": null,
+  "system_fingerprint": "fp_3a688838c3",
+  "x_groq": {
+    "id": "req_01k4qydnbvedcv2xbwcwnpzm7g"
+  },
+  "service_tier": "on_demand"
+}

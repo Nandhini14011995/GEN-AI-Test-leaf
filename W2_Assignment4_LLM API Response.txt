@@ -1,0 +1,54 @@
+Assignment 4:
+
+LLM Request:
+
+{
+  "model": "openai/gpt-oss-120b",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Context:\n    You are an AI assistant to generate the test data for different types of credit card\n   \nInstructions:\n\n    - [MANDATORY] Consider all the types of cards such as MASTER, VISA, DISCOVERY\n    - [CRITICAL] Consider all the positive, negative, edge cases\n    - [STRICTLY] No duplicate test data for better test data stability\n    - [MANDATORY] Cover faurdlent card data as well\n    - Generate the test data with card holder full name, card type, card number, CVV, Expiration, Issue Date\n    - Test data should be global and not specific to any region\n    - DO NOT send any explanation or additional text\n\n\nExamples:\n\n    - Nandhini|Visa|3748 9837 0293 9343|123|1230|1225\n\nTone: Professional, Clear and focused on framework migration. Provide well-commented, reusable code for QA engineers.\n        \nOutput: \n\n    - Data should be in tabular format\n    - Card Holdername|Card Type|Card Number|CVV|Expiration Date|Issue Date\n\nPersona: Act as QA automation engineer to automate payment related app"
+    }
+  ]
+}
+
+
+Response:
+
+{
+  "id": "chatcmpl-8b2170a5-7c7d-49cf-8cb6-1e62572b9bb7",
+  "object": "chat.completion",
+  "created": 1757453157,
+  "model": "openai/gpt-oss-120b",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "John Doe|Visa|4111 1111 1111 1111|123|1230|0120  \nMaria García|MasterCard|5500 0000 0000 0004|456|1125|0223  \nLi Wei|Discover|6011 0009 9013 9424|789|0919|0318  \nAisha Khan|Visa|4000 0566 5566 5556|321|0522|0619  \nCarlos Silva|MasterCard|5111 1111 1111 1118|654|0815|0114  \nEmma Johansson|Discover|6011 1111 1111 1117|987|1224|0319  \nSamuel O'Neill|Visa|4222 2222 2222 2|111|0310|0110  *(Invalid length)*  \nNina Patel|MasterCard|5400 0000 0000 0000|22|0718|0418  *(Invalid CVV)*  \nOlga Petrova|Discover|6011-0000-0000-0005|333|0019|1218  *(Invalid month)*  \nRavi Kumar|Visa|4111 1111 1111 1112|444|1319|1019  *(Invalid month)*  \nFatima Al-Masri|MasterCard|5555 5555 5555 4444|555|1220|1221  *(Issue after expiration)*  \nTomás Rivera|Discover|6011 1111 1111 1116|666|1222|1222  \nIsabella Rossi|Visa|4000 0000 0000 0002|777|1221|1220  \nJean Dupont|MasterCard|5200 0000 0000 0006|888|1124|1123  \nChen Liu|Discover|6011 1111 1111 1110|999|1025|1024  \nLaura Smith|Visa|4242 4242 4242 4242|000|1229|1227  \nAhmed Hassan|MasterCard|5111 1111 1111 1113|123|1122|1120  \nSofia Martinez|Discover|6011 0000 0000 0000|456|1023|1021  \nMichael Brown|Visa|4000 0000 0000 0008|789|1126|1125  \n**Fraud Alert**|Visa|4000 0000 0000 9999|999|1231|0110  *(Known fraudulent)*",
+        "reasoning": "We need to output test data in tabular format, with fields: Card Holdername|Card Type|Card Number|CVV|Expiration Date|Issue Date. Must include all types: MASTER, VISA, DISCOVERY (probably \"Discover\"). Must include positive, negative, edge cases, no duplicate data, include fraudulent card data. Must be global, not region specific. Must not include explanation. Must be professional. Provide well-commented, reusable code? Actually the instruction says \"Tone: Professional, Clear and focused on framework migration. Provide well-commented, reusable code for QA engineers.\" That's contradictory with \"Do not send any explanation or additional text.\" But the example shows plain data lines. Probably just output data lines, no code. The \"tone\" maybe just format. So just produce rows. Ensure uniqueness, include valid-looking numbers, some invalid lengths, some with spaces, some with dashes, some expired, some future, some with edge dates like 01/00? Also include fraudulent (maybe stolen, blacklisted). Provide both positive and negative. Let's generate maybe 20 rows covering cases.\n\nNeed card numbers: we can generate plausible Luhn numbers for Visa (starting with 4), MasterCard (5), Discover (6). Use dummy numbers but valid Luhn. For negative cases, use wrong lengths, invalid Luhn, wrong CVV length, expiration past, issue date after expiration, etc.\n\nNo duplicates.\n\nLet's craft.\n\nI'll produce lines:\n\n1. John Doe|Visa|4111 1111 1111 1111|123|12/30|01/20 (valid)\nBut need format Expiration Date maybe MMYY like 1230? In example they used 1230 for Dec 2030. Use same format: MMYY without slash. Issue Date maybe MMYY as well. Use same.\n\nLet's produce.\n\nWill include spaces in card numbers.\n\nEdge: expiration month 00 invalid, month 13 invalid.\n\nFraud: flagged as \"Fraud\" maybe just include in holder name? Or include type \"Fraud\"? Could add a row with suspicious numbers like \"0000 0000 0000 0000\".\n\nWe'll produce.\n\nMake sure no duplicate numbers.\n\nLet's generate 20 rows.\n\n"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "queue_time": 0.185793459,
+    "prompt_tokens": 298,
+    "prompt_time": 0.011493048,
+    "completion_tokens": 1021,
+    "completion_time": 2.036659777,
+    "total_tokens": 1319,
+    "total_time": 2.048152825
+  },
+  "usage_breakdown": null,
+  "system_fingerprint": "fp_ed9190d8b7",
+  "x_groq": {
+    "id": "req_01k4r5xzchez082e7jdc1kvsvm"
+  },
+  "service_tier": "on_demand"
+}
+
+
+
+

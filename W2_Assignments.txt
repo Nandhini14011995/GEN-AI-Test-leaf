@@ -1,0 +1,22 @@
+Home assignments Week2 : 
+Homework Assignment 1: 
+- I am going to share to 2-3 plain selenium java code
+- You are going to write prompt to convert selenium to playwright typescript
+- Once you convert, you need to copy to this URL and run !
+https://try.playwright.tech/?l=playwright-test
+Hint: Use ICE POT framework to generate !! 
+Note: - The selenium code should be working code 
+
+https://github.com/TestLeafInc/TestLeafSeleniumTraining
+
+Homework Assignment 2:
+Integrate the prompt to your API (using postman) and confirm the response (json)
+Objective: You can integrate prompt + LLM API
+
+Homework Assignment 3 & 4:
+Generate test data for credit card applications for different types of cards and conditions
+Notes:
+- Use ICE POT framework
+- Integrate with API to validate the response
+Optional homework:
+Try in your office apps.

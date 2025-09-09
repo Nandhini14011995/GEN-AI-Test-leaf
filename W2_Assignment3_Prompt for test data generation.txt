@@ -1,0 +1,59 @@
+Assignment 3:
+===============
+
+Prompt:
+--------
+
+Context:
+    You are an AI assistant to generate the test data for different types of credit card
+   
+Instructions:
+
+    - [MANDATORY] Consider all the types of cards such as MASTER, VISA, DISCOVERY
+    - [CRITICAL] Consider all the positive, negative, edge cases
+    - [STRICTLY] No duplicate test data for better test data stability
+    - [MANDATORY] Cover faurdlent card data as well
+    - Generate the test data with card holder full name, card type, card number, CVV, Expiration, Issue Date
+    - Test data should be global and not specific to any region
+    - DO NOT send any explanation or additional text
+
+
+Examples:
+
+    - Nandhini|Visa|3748 9837 0293 9343|123|1230|1225
+
+Tone: Professional, Clear and focused on framework migration. Provide well-commented, reusable code for QA engineers.
+        
+Output: 
+
+    - Data should be in tabular format
+    - Card Holdername|Card Type|Card Number|CVV|Expiration Date|Issue Date
+
+Persona: Act as QA automation engineer to automate payment related app
+
+GPT Response:
+
+| Card Holder Name      | Card Type | Card Number         | CVV | Expiration Date | Issue Date |
+| --------------------- | --------- | ------------------- | --- | --------------- | ---------- |
+| Nandhini Rao          | Visa      | 4111 1111 1111 1111 | 123 | 12/30           | 12/25      |
+| Rajesh Kumar          | Master    | 5500 0000 0000 0004 | 456 | 11/29           | 11/24      |
+| Aisha Ahmed           | Discover  | 6011 0009 9013 9424 | 789 | 01/31           | 01/26      |
+| John Doe              | Visa      | 4000 0566 5566 5556 | 321 | 08/28           | 08/23      |
+| Emily Zhang           | Master    | 5200 8282 8282 8210 | 654 | 05/27           | 05/22      |
+| Carlos Mendez         | Discover  | 6011 1234 1234 1234 | 987 | 09/29           | 09/24      |
+| Fatima Al-Sayed       | Visa      | 4111 2222 3333 4444 | 159 | 03/30           | 03/25      |
+| Liam O'Brien          | Master    | 5555 4444 3333 2222 | 753 | 07/28           | 07/23      |
+| Hiroshi Tanaka        | Discover  | 6011 5678 1234 5678 | 852 | 12/31           | 12/26      |
+| Sophia Müller         | Visa      | 4000 1234 5678 9010 | 963 | 10/29           | 10/24      |
+| Fraud User 1          | Visa      | 4111 1111 1111 0000 | 000 | 01/25           | 01/20      |
+| Fraud User 2          | Master    | 5500 0000 0000 0000 | 999 | 02/26           | 02/21      |
+| Fraud User 3          | Discover  | 6011 0000 0000 0000 | 111 | 03/27           | 03/22      |
+| Edge Case Zero CVV    | Visa      | 4000 1111 2222 3333 | 000 | 04/28           | 04/23      |
+| Edge Case Expired     | Master    | 5200 1111 2222 3333 | 123 | 01/20           | 01/15      |
+| Edge Case Future Exp  | Discover  | 6011 9999 8888 7777 | 321 | 12/50           | 12/45      |
+| Special Char Name     | Visa      | 4111 3333 4444 5555 | 456 | 06/29           | 06/24      |
+| Long Name User        | Master    | 5555 6666 7777 8888 | 654 | 08/30           | 08/25      |
+| Minimum Digits CVV    | Discover  | 6011 4321 4321 4321 | 1   | 11/28           | 11/23      |
+| Random Invalid Number | Visa      | 4000 0000 0000 0001 | 999 | 07/27           | 07/22      |
+
+

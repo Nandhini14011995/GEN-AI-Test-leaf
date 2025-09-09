@@ -1,0 +1,175 @@
+Assignment 1:
+==========================================================
+
+PROMPT:
+-------
+
+Context:
+  You are an AI assistant to convert Selenium java code to playwright typescript code for homedepot retail app.
+   
+  Given the following selenium java code:
+
+    import org.openqa.selenium.By;
+    import org.openqa.selenium.WebDriver;
+    import org.openqa.selenium.WebElement;
+    import org.openqa.selenium.chrome.ChromeDriver;
+    import org.openqa.selenium.support.ui.ExpectedConditions;
+    import org.openqa.selenium.support.ui.WebDriverWait;
+    import org.testng.Assert;
+
+    import java.time.Duration;
+
+    public class LoginAutomation {
+        public static void main(String[] args) {
+            // Set path to your ChromeDriver executable
+            System.setProperty("webdriver.chrome.driver", "path/to/chromedriver");
+
+            // Initialize WebDriver
+            WebDriver driver = new ChromeDriver();
+
+            try {
+                // Open your target website
+                driver.get("https://www.homedepot.com");
+
+                // Maximize the browser window
+                driver.manage().window().maximize();
+
+                // Create WebDriverWait for explicit waits
+                WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+                // 1️⃣ Click the "Log In" button
+                WebElement loginButton = wait.until(
+                        ExpectedConditions.elementToBeClickable(By.cssSelector("button[data-testid='header-button-Account']"))
+                );
+                loginButton.click();
+
+                // 2️⃣ Click the "Sign in" link
+                WebElement signInLink = wait.until(
+                        ExpectedConditions.elementToBeClickable(By.xpath("//a[text()='Sign in']"))
+                );
+                signInLink.click();
+
+                // 3️⃣ Wait for the email page heading and assert
+                WebElement heading = wait.until(
+                        ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Enter Your Email Address']"))
+                );
+                String headingText = heading.getText();
+                Assert.assertEquals(headingText, "Enter Your Email Address", "Page heading does not match!");
+
+                System.out.println("✅ Assertion passed: Correct page heading is displayed!");
+
+                // Optional pause just to observe
+                Thread.sleep(2000);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                // Close browser
+                driver.quit();
+            }
+        }
+      }
+   
+Instructions:
+
+    - Implementation guidelines:
+      - Use the latest stable of version of playwright
+      - Leverage TypeScript-aware selectors and waits
+      - Import all required classes from playwright
+      - DO NOT convert to any other codes
+      - [CRITICAL] use best practice locators starting getByRole, getByLabel, getByPlaceholder, getByText, getByTestId, CSS, Xpath
+      - [CRITICAL] use stable attributes
+      - [MANDATORY] Every method should have proper comments above method signature
+      - [IMPORTANT] Do not send any explanation or additional text
+      - [STRICTLY] Follow the coding structure and syntax with reference of example
+      - Set headless to true
+      - Add assertions for validation
+
+Examples:
+
+    import { test, expect } from "@playwright/test";
+
+    test('LeafTaps Login', async ({ page }) => {
+      // Navigate to login page
+      await page.goto("http://leaftaps.com/opentaps/control/main");
+      await page.setViewportSize({ width: 1920, height: 1080 });
+
+      // Enter username
+      await page.fill("#username", "Demosalesmanager");
+
+      // Enter password
+      await page.fill("#password", "crmsfa");
+
+      // Click Login
+      await page.click(".decorativeSubmit");
+
+      // Verify successful login by checking for CRM/SFA link
+      await expect(page.locator("a:has-text('CRM/SFA')")).toBeVisible();
+
+      console.log("✅ Login successful, CRM/SFA link is visible");
+    });
+
+Tone: Professional, Clear and focused on framework migration. Provide well-commented, reusable code for QA engineers.
+        
+Output: 
+
+  - Provide the working Playwright TypeScript equivalent code for the provided Selenium program.
+  - Format and clean the converted playwright script
+  - Ensure it is executable Playwright script
+  - Ensure the valid/correct imports, async functions, browser and page handling
+
+Persona: Act as an senior automation architect with expertise in framework design using Selenium, Playwright, and TypeScript
+
+
+CHAT-GPT RESPONSE:
+------------------
+
+import { test, expect } from "@playwright/test";
+
+/**
+ * Test to verify that HomeDepot login flow navigates
+ * to the email entry page and displays the correct heading.
+ */
+test("HomeDepot - Verify email entry page heading", async ({ page }) => {
+  // Configure viewport for desktop resolution
+  await page.setViewportSize({ width: 1920, height: 1080 });
+
+  // Navigate to HomeDepot homepage
+  await page.goto("https://www.homedepot.com");
+
+  // 1️⃣ Click the "Log In" button
+  const loginButton = page.getByTestId("header-button-Account");
+  await expect(loginButton).toBeVisible();
+  await loginButton.click();
+
+  // 2️⃣ Click the "Sign in" link
+  const signInLink = page.getByRole("link", { name: "Sign in" });
+  await expect(signInLink).toBeVisible();
+  await signInLink.click();
+
+  // 3️⃣ Wait for the email entry page heading and assert text
+  const heading = page.locator("//h3[text()='Enter Your Email Address']");
+  await expect(heading).toBeVisible();
+  await expect(heading).toHaveText("Enter Your Email Address");
+
+  console.log("✅ Assertion passed: Correct page heading is displayed!");
+
+  // Optional wait to observe execution (can be removed in CI runs)
+  await page.waitForTimeout(2000);
+});
+
+
+Logs
+
+Running 1 test using 1 worker
+
+✅ Assertion passed: Correct page heading is displayed!
+✓ 1 example.spec.ts:7:5 › HomeDepot - Verify email entry page heading (23.4s)
+
+1 passed (25.8s)
+Files
+trace.zip - Open in Trace Viewer
+
+Duration of 26912 ms with Playwright version 1.53.1.
+
+
